@@ -1,6 +1,26 @@
 import React from 'react';
+import Category from './Category';
+import { getCategories } from '../services/api';
 
 class Source extends React.Component {
+  state = {
+    category: [],
+  };
+
+  componentDidMount() {
+    getCategories()
+      .then((result) => this.setState({ category: result }));
+  }
+
+  creatCategory = () => {
+    const { category } = this.state;
+    const a = category.map((element) => (<Category
+      key={ element.id }
+      category={ element.name }
+    />));
+    return a;
+  };
+
   render() {
     return (
       <div>
@@ -13,6 +33,11 @@ class Source extends React.Component {
             Digite algum termo de pesquisa ou escolha uma categoria.
           </h3>
         </label>
+        <aside>
+          <ul>
+            {this.creatCategory()}
+          </ul>
+        </aside>
       </div>
 
     );
