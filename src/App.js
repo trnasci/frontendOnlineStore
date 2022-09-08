@@ -7,7 +7,6 @@ import Carrinho from './Component/Carrinho';
 function App() {
   return (
     <BrowserRouter>
-
       <Switch>
         <Route exact path="/" component={ Source } />
         <Route exact path="/carrinho" component={ Carrinho } />
