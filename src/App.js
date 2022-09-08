@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { getCategories } from './services/api';
 
 function App() {
   return (
@@ -14,8 +15,11 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React 
+          Learn React
         </a>
+        {
+          console.log(getCategories())
+        }
       </header>
     </div>
   );
