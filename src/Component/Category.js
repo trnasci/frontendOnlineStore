@@ -9,16 +9,9 @@ class Category extends Component {
       onClick,
     } = this.props;
     return (
-      <li data-testid="category">
-        <button
-          type="submit"
-          data-testid={ category }
-          id={ id }
-          onClick={ onClick }
-        >
-          {category}
-        </button>
-      </li>
+      <button id={ id } onClick={ onClick } type="submit" data-testid="category">
+        { category }
+      </button>
     );
   }
 }
