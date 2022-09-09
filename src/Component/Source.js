@@ -8,6 +8,7 @@ class Source extends React.Component {
     category: [],
     search: '',
     productsList: [],
+    buttonIsClicked: false,
   };
 
   componentDidMount() {
@@ -37,11 +38,27 @@ class Source extends React.Component {
     const { results } = DATA;
     this.setState({
       productsList: results,
+      buttonIsClicked: true,
     });
   };
 
   render() {
-    const { productsList } = this.state;
+    const { productsList, buttonIsClicked } = this.state;
+
+    let searchProducts;
+    if (buttonIsClicked === true && productsList.length > 0) {
+      searchProducts = productsList.map((i) => (
+        <div key={ i.id } data-testid="product">
+          <h5>{i.title}</h5>
+          <img src={ i.thumbnail } alt={ i.title } />
+          <h6>{i.price}</h6>
+        </div>
+      ));
+    } else if (buttonIsClicked === false && productsList.length === 0) {
+      searchProducts = <h4>Você ainda não realizou uma busca </h4>;
+    } else {
+      searchProducts = <h4>Nenhum produto foi encontrado</h4>;
+    }
 
     return (
       <div>
@@ -68,21 +85,12 @@ class Source extends React.Component {
           <ul>
             {this.creatCategory()}
           </ul>
-          <div>
-            {
-              productsList.length > 0
-                ? productsList.map((i) => (
-                  <div key={ i.id } data-testid="product">
-                    <h5>{i.title}</h5>
-                    <img src={ i.thumbnail } alt={ i.title } />
-                    <h6>{i.price}</h6>
-                  </div>
-                ))
-                : <h3>Nenhum produto foi encontrado</h3>
-            }
-          </div>
-
         </aside>
+        <div>
+          {
+            searchProducts
+          }
+        </div>
       </div>
 
     );
