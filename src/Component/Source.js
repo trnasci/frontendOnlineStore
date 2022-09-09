@@ -21,6 +21,8 @@ class Source extends React.Component {
     const a = category.map((element) => (<Category
       key={ element.id }
       category={ element.name }
+      id={ element.id }
+      onClick={ this.handleClickCategory }
     />));
     return a;
   };
@@ -42,6 +44,16 @@ class Source extends React.Component {
     });
   };
 
+  handleClickCategory = async (event) => {
+    const { id } = event.target;
+    const DATA = await getProductsFromCategoryAndQuery(id);
+    const { results } = DATA;
+    this.setState({
+      productsList: results,
+      buttonIsClicked: true,
+    });
+  };
+
   render() {
     const { productsList, buttonIsClicked } = this.state;
 
@@ -51,7 +63,7 @@ class Source extends React.Component {
         <div key={ i.id } data-testid="product">
           <h5>{i.title}</h5>
           <img src={ i.thumbnail } alt={ i.title } />
-          <h6>{i.price}</h6>
+          <h6>{`R$ ${i.price}`}</h6>
         </div>
       ));
     } else if (buttonIsClicked === false && productsList.length === 0) {
