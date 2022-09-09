@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Category from './Category';
-import { getCategories } from '../services/api';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 class Source extends React.Component {
   state = {
     category: [],
+    search: '',
+    productsList: [],
+    buttonIsClicked: false,
   };
 
   componentDidMount() {
@@ -22,14 +25,57 @@ class Source extends React.Component {
     return a;
   };
 
+  handleChange = (event) => {
+    const { value } = event.target;
+    this.setState({
+      search: value,
+    });
+  };
+
+  handleClick = async () => {
+    const { search } = this.state;
+    const DATA = await getProductsFromCategoryAndQuery(search, search);
+    const { results } = DATA;
+    this.setState({
+      productsList: results,
+      buttonIsClicked: true,
+    });
+  };
+
   render() {
+    const { productsList, buttonIsClicked } = this.state;
+
+    let searchProducts;
+    if (buttonIsClicked === true && productsList.length > 0) {
+      searchProducts = productsList.map((i) => (
+        <div key={ i.id } data-testid="product">
+          <h5>{i.title}</h5>
+          <img src={ i.thumbnail } alt={ i.title } />
+          <h6>{i.price}</h6>
+        </div>
+      ));
+    } else if (buttonIsClicked === false && productsList.length === 0) {
+      searchProducts = <h4>Você ainda não realizou uma busca </h4>;
+    } else {
+      searchProducts = <h4>Nenhum produto foi encontrado</h4>;
+    }
+
     return (
       <div>
         <label htmlFor="search">
           <input
+            data-testid="query-input"
             name="search"
             type="text"
+            onChange={ this.handleChange }
           />
+          <button
+            type="button"
+            data-testid="query-button"
+            onClick={ this.handleClick }
+          >
+            Pesquisar
+          </button>
           <h3 data-testid="home-initial-message">
             Digite algum termo de pesquisa ou escolha uma categoria.
           </h3>
@@ -40,6 +86,11 @@ class Source extends React.Component {
             {this.creatCategory()}
           </ul>
         </aside>
+        <div>
+          {
+            searchProducts
+          }
+        </div>
       </div>
 
     );
