@@ -5,17 +5,16 @@ export async function getCategories() {
 }
 
 export async function getProductsFromCategoryAndQuery($ID, $QUERY) {
-  const RESPONSE_QUERY = await fetch(` https://api.mercadolibre.com/sites/MLB/search?q=${$QUERY}`);
-  const RESPONSE_ID = await fetch(`https://api.mercadolibre.com/sites/MLB/search?category=${$ID}`);
+  const RESPONSE = await fetch(`https://api.mercadolibre.com/sites/MLB/search?category=${$ID}&=${$QUERY}`);
 
   if ($QUERY !== undefined) {
-    const DATA_QUERY = RESPONSE_QUERY.json();
-    return DATA_QUERY;
+    const DATA = RESPONSE.json();
+    return DATA;
   }
 
   if ($ID !== undefined) {
-    const DATA_ID = RESPONSE_ID.json();
-    return DATA_ID;
+    const DATA = RESPONSE.json();
+    return DATA;
   }
 
   return {};
