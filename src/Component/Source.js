@@ -74,6 +74,16 @@ class Source extends React.Component {
           <h5>{i.title}</h5>
           <img src={ i.thumbnail } alt={ i.title } />
           <h6>{`R$ ${i.price}`}</h6>
+          <Link
+            to={ `/product/${i.id}` }
+          >
+            <button
+              data-testid="product-detail-link"
+              type="button"
+            >
+              Detalhes
+            </button>
+          </Link>
           <button
             type="submit"
             data-testid="product-add-to-cart"
@@ -81,6 +91,7 @@ class Source extends React.Component {
           >
             Adicionar ao carrinho
           </button>
+
         </div>
       ));
     } else if (buttonIsClicked === true && productsList.length === 0) {
