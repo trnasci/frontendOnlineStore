@@ -54,6 +54,16 @@ class Source extends React.Component {
     });
   };
 
+  handleClickAddToCart = async (title, thumbnail, price) => {
+    let productsToCart = [];
+    const CART_STORAGE = localStorage.getItem('products');
+    if (CART_STORAGE) {
+      productsToCart = JSON.parse(localStorage.getItem('products'));
+    }
+    productsToCart.push({ title, thumbnail, price });
+    localStorage.setItem('products', JSON.stringify(productsToCart));
+  };
+
   render() {
     const { productsList, buttonIsClicked } = this.state;
 
@@ -64,10 +74,17 @@ class Source extends React.Component {
           <h5>{i.title}</h5>
           <img src={ i.thumbnail } alt={ i.title } />
           <h6>{`R$ ${i.price}`}</h6>
+          <button
+            type="submit"
+            data-testid="product-add-to-cart"
+            onClick={ () => this.handleClickAddToCart(i.title, i.thumbnail, i.price) }
+          >
+            Adicionar ao carrinho
+          </button>
         </div>
       ));
     } else if (buttonIsClicked === false && productsList.length === 0) {
-      searchProducts = <h4>Você ainda não realizou uma busca </h4>;
+      searchProducts = <h4>{null}</h4>;
     } else {
       searchProducts = <h4>Nenhum produto foi encontrado</h4>;
     }
