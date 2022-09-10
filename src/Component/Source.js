@@ -19,10 +19,10 @@ class Source extends React.Component {
   creatCategory = () => {
     const { category } = this.state;
     const a = category.map((element) => (<Category
-      key={element.id}
-      category={element.name}
-      id={element.id}
-      onClick={this.handleClickCategory}
+      key={ element.id }
+      category={ element.name }
+      id={ element.id }
+      onClick={ this.handleClickCategory }
     />));
     return a;
   };
@@ -70,14 +70,14 @@ class Source extends React.Component {
     let searchProducts;
     if (buttonIsClicked === true && productsList.length > 0) {
       searchProducts = productsList.map((i) => (
-        <div key={i.id} data-testid="product">
+        <div key={ i.id } data-testid="product">
           <h5>{i.title}</h5>
-          <img src={i.thumbnail} alt={i.title} />
+          <img src={ i.thumbnail } alt={ i.title } />
           <h6>{`R$ ${i.price}`}</h6>
           <button
             type="submit"
             data-testid="product-add-to-cart"
-            onClick={() => this.handleClickAddToCart(i.title, i.thumbnail, i.price)}
+            onClick={ () => this.handleClickAddToCart(i.title, i.thumbnail, i.price) }
           >
             Adicionar ao carrinho
           </button>
@@ -96,12 +96,12 @@ class Source extends React.Component {
             data-testid="query-input"
             name="search"
             type="text"
-            onChange={this.handleChange}
+            onChange={ this.handleChange }
           />
           <button
             type="button"
             data-testid="query-button"
-            onClick={this.handleClick}
+            onClick={ this.handleClick }
           >
             Pesquisar
           </button>
