@@ -51,7 +51,7 @@ export default class Carrinho extends Component {
     }
     return (
       <div>
-        <h1 data-testid="shopping-cart-empty-message">Carrinho vazio</h1>
+        <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>
         <Link to="/">voltar</Link>
       </div>
     );
