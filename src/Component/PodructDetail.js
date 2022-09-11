@@ -16,33 +16,24 @@ class PodructDetail extends Component {
     const { match } = this.props;
     const { params } = match;
     const { id } = params;
-    getProductById(id)
-      .then((productInfo) => this.setState({ product: productInfo }));
+    getProductById(id).then((productInfo) => this.setState({ product: productInfo }));
   };
 
   handlerAddToCart = () => {
-    const { product } = this.state;
-    const { title, price, thumbnail } = product;
-    const cart = JSON.parse(localStorage.getItem('products'));
-    const isCartIten = cart.find((iten) => iten.name === title);
-    if (isCartIten === undefined) {
-      cart.push({
-        name: title,
-        price,
-        qty: 1,
-        thumbnail,
+    const { product: { title, price, thumbnail } } = this.state;
+    const productsToCart = JSON.parse(localStorage.getItem('products')) || [];
+    const qty = 1;
+    const productFound = productsToCart.find((product) => (product.title === title));
+    if (productFound) {
+      productsToCart.forEach((product) => {
+        if (product.title === title) {
+          product.qty += 1;
+        }
       });
-      localStorage.setItem('products', JSON.stringify(cart));
+    } else {
+      productsToCart.push({ title, thumbnail, price, qty });
     }
-
-    const toStorage = cart.map((iten) => {
-      if (iten === isCartIten) {
-        iten.qty += 1;
-        return iten;
-      }
-      return iten;
-    });
-    localStorage.setItem('products', JSON.stringify(toStorage));
+    localStorage.setItem('products', JSON.stringify(productsToCart));
   };
 
   renderProduct = () => {
@@ -70,7 +61,6 @@ class PodructDetail extends Component {
             type="submit"
             id="0"
             onClick={ this.handlerAddToCart }
-            ind
           >
             Adicionar ao carrinho
           </button>
@@ -89,7 +79,7 @@ class PodructDetail extends Component {
         >
           Carrinho
         </Link>
-        { this.renderProduct()}
+        {this.renderProduct()}
       </div>
     );
   }
