@@ -55,12 +55,18 @@ class Source extends React.Component {
   };
 
   handleClickAddToCart = async (title, thumbnail, price) => {
-    let productsToCart = [];
-    const CART_STORAGE = localStorage.getItem('products');
-    if (CART_STORAGE) {
-      productsToCart = JSON.parse(localStorage.getItem('products'));
+    const productsToCart = JSON.parse(localStorage.getItem('products')) || [];
+    const qty = 1;
+    const productFound = productsToCart.find((product) => (product.title === title));
+    if (productFound) {
+      productsToCart.forEach((product) => {
+        if (product.title === title) {
+          product.qty += 1;
+        }
+      });
+    } else {
+      productsToCart.push({ title, thumbnail, price, qty });
     }
-    productsToCart.push({ title, thumbnail, price });
     localStorage.setItem('products', JSON.stringify(productsToCart));
   };
 

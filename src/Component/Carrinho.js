@@ -1,42 +1,47 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Carrinho extends Component {
-  state = {
-    emptyCart: true,
-    productsToCart: [],
-    quantity: 1,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      emptyCart: true,
+      productsToCart: [],
+
+    };
+  }
 
   componentDidMount() {
-    const CART_PRODUCTS = JSON.parse(localStorage.getItem('products'));
-    if (CART_PRODUCTS) {
-      this.setState({ emptyCart: false });
+    let CART_PRODUCTS = null;
+    CART_PRODUCTS = JSON.parse(localStorage.getItem('products'));
+    if (CART_PRODUCTS === null) {
+      this.setState({
+        emptyCart: false,
+      });
+      console.log(CART_PRODUCTS);
     }
-    this.setState({ productsToCart: CART_PRODUCTS });
+    if (CART_PRODUCTS !== null) {
+      this.setState({
+        emptyCart: true,
+        productsToCart: CART_PRODUCTS,
+      });
+    }
   }
 
   render() {
-    const { emptyCart, productsToCart, quantity } = this.state;
-    let CART_LIST;
-    if (emptyCart === true) {
-      CART_LIST = (
-        <div data-testid="shopping-cart-empty-message">
-          Seu carrinho está vazio
-        </div>
-      );
-    } else {
-      CART_LIST = (
+    const { productsToCart, emptyCart } = this.state;
+    if (emptyCart) {
+      return (
         <div>
           {
-            productsToCart.map((i) => (
-              <div key={ i.title }>
-                <h4 data-testid="shopping-cart-product-name">
-                  {i.title}
-                </h4>
-                <img src={ i.thumbnail } alt={ i.title } />
-                <h5>{`R$: ${i.price}`}</h5>
-                <span data-testid="shopping-cart-product-quantity">
-                  {quantity}
+            productsToCart.map((produto) => (
+              <div key={ produto.title }>
+                <h3 data-testid="shopping-cart-product-name">{produto.title}</h3>
+                <img src={ produto.thumnail } alt={ produto.title } />
+                <h4>{`R$: ${produto.price}`}</h4>
+                <span>
+                  <h4 data-testid="shopping-cart-product-quantity">{produto.qty}</h4>
                 </span>
               </div>
             ))
@@ -46,9 +51,8 @@ export default class Carrinho extends Component {
     }
     return (
       <div>
-        {
-          CART_LIST
-        }
+        <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>
+        <Link to="/">voltar</Link>
       </div>
     );
   }
