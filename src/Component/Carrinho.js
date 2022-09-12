@@ -43,9 +43,7 @@ export default class Carrinho extends Component {
     localStorage.setItem('products', JSON.stringify(productsToCart));
     let CART_PRODUCTS = null;
     CART_PRODUCTS = JSON.parse(localStorage.getItem('products'));
-    this.setState({
-      productsToCart: CART_PRODUCTS,
-    });
+    this.setState({ productsToCart: CART_PRODUCTS });
   };
 
   handlerSubQty = (event) => {
@@ -62,21 +60,17 @@ export default class Carrinho extends Component {
     localStorage.setItem('products', JSON.stringify(productsToCart));
     let CART_PRODUCTS = null;
     CART_PRODUCTS = JSON.parse(localStorage.getItem('products'));
-    this.setState({
-      productsToCart: CART_PRODUCTS,
-    });
+    this.setState({ productsToCart: CART_PRODUCTS });
   };
 
   handlerRemoveProduct = (event) => {
     const { id } = event.target;
     const { productsToCart } = this.state;
-    const productFound = productsToCart.filter((product) => (product.title !== id));
-    localStorage.setItem('products', JSON.stringify(productFound));
+    const productFilter = productsToCart.filter((product) => (product.title !== id));
+    localStorage.setItem('products', JSON.stringify(productFilter));
     let CART_PRODUCTS = null;
     CART_PRODUCTS = JSON.parse(localStorage.getItem('products'));
-    this.setState({
-      productsToCart: CART_PRODUCTS,
-    });
+    this.setState({ productsToCart: CART_PRODUCTS });
   };
 
   render() {
