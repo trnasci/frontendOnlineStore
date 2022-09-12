@@ -62,9 +62,7 @@ export default class Carrinho extends Component {
     localStorage.setItem('products', JSON.stringify(productsToCart));
     let CART_PRODUCTS = null;
     CART_PRODUCTS = JSON.parse(localStorage.getItem('products'));
-    this.setState({
-      productsToCart: CART_PRODUCTS,
-    });
+    this.setState({ productsToCart: CART_PRODUCTS });
   };
 
   handlerRemoveProduct = (event) => {
@@ -74,9 +72,7 @@ export default class Carrinho extends Component {
     localStorage.setItem('products', JSON.stringify(productFound));
     let CART_PRODUCTS = null;
     CART_PRODUCTS = JSON.parse(localStorage.getItem('products'));
-    this.setState({
-      productsToCart: CART_PRODUCTS,
-    });
+    this.setState({ productsToCart: CART_PRODUCTS });
   };
 
   render() {
